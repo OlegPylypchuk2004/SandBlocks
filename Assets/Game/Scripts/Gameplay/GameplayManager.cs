@@ -7,7 +7,7 @@ namespace Gameplay
         [SerializeField] private Vector2Int _gridSize;
         [SerializeField] private CellsGrid _cellsGrid;
         [SerializeField] private Camera _camera;
-        [SerializeField] private GameObject _pickedFigure;
+        [SerializeField] private PickedFigure _pickedFigure;
 
         private void Start()
         {
@@ -18,6 +18,7 @@ namespace Gameplay
         private void Update()
         {
             MovePickedFigure();
+            _pickedFigure.gameObject.SetActive(_pickedFigure.IsCanPutBlocks() && Input.GetMouseButton(0));
         }
 
         private void MovePickedFigure()

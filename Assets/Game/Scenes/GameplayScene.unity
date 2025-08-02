@@ -185,7 +185,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &707206163
+--- !u!1001 &896604883
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -235,18 +235,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3808106925926782176, guid: 602b0dbee2d323f4799c6166a67b66e3, type: 3}
       propertyPath: m_Name
-      value: Figure
+      value: PickedFigure
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 602b0dbee2d323f4799c6166a67b66e3, type: 3}
---- !u!1 &707206164 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3808106925926782176, guid: 602b0dbee2d323f4799c6166a67b66e3, type: 3}
-  m_PrefabInstance: {fileID: 707206163}
+--- !u!114 &896604884 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4401622728758171412, guid: 602b0dbee2d323f4799c6166a67b66e3, type: 3}
+  m_PrefabInstance: {fileID: 896604883}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af8ba7eef03c7404c932b0099f0df3ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +377,7 @@ MonoBehaviour:
   _gridSize: {x: 25, y: 25}
   _cellsGrid: {fileID: 270584717}
   _camera: {fileID: 963194227}
-  _pickedFigure: {fileID: 707206164}
+  _pickedFigure: {fileID: 896604884}
 --- !u!4 &1303467809
 Transform:
   m_ObjectHideFlags: 0
@@ -394,4 +400,4 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 1303467809}
   - {fileID: 270584718}
-  - {fileID: 707206163}
+  - {fileID: 896604883}
