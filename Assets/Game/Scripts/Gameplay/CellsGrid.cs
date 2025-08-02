@@ -46,45 +46,34 @@ namespace Gameplay
         {
             List<Cell> simulationCells = cells.OrderBy(cell => cell.transform.position.y).ToList();
 
-            do
+            while (simulationCells.Count > 0)
             {
-                List<Cell> cellsToAdd = new List<Cell>();
-                List<Cell> cellsToRemove = new List<Cell>();
+                List<Cell> nextStepCells = new List<Cell>();
 
                 foreach (Cell cell in simulationCells)
                 {
-                    Cell neighboringCell = GetNeighboringCell(cell);
+                    Cell neighbor = GetNeighboringCell(cell);
 
-                    if (neighboringCell == null || neighboringCell.IsFilled)
+                    if (neighbor == null || neighbor.IsFilled)
                     {
                         continue;
                     }
 
                     cell.IsFilled = false;
-                    neighboringCell.IsFilled = true;
+                    neighbor.IsFilled = true;
 
-                    cellsToAdd.Add(neighboringCell);
-                    cellsToRemove.Add(cell);
+                    nextStepCells.Add(neighbor);
                 }
 
-                foreach (Cell cellToAdd in cellsToAdd)
-                {
-                    simulationCells.Add(cellToAdd);
-                }
-
-                foreach (Cell cellToRemove in cellsToRemove)
-                {
-                    simulationCells.Remove(cellToRemove);
-                }
-
-                if (cellsToAdd.Count == 0 && cellsToRemove.Count == 0)
+                if (nextStepCells.Count == 0)
                 {
                     break;
                 }
 
-                yield return new WaitForSeconds(_simulationDelay);
+                simulationCells = nextStepCells;
 
-            } while (simulationCells.Count > 0);
+                yield return new WaitForSeconds(_simulationDelay);
+            }
         }
 
         private Cell GetNeighboringCell(Cell cell)
