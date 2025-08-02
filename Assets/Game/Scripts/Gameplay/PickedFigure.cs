@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Gameplay
@@ -8,17 +9,32 @@ namespace Gameplay
 
         public bool IsCanPutBlocks()
         {
-            foreach (Block block in _blocks)
+            foreach (Cell cellUnderBlock in GetCellsUnderBlocks())
             {
-                Cell cellUnder = block.GetCellUnder();
-
-                if (cellUnder == null || cellUnder.IsFilled)
+                if (cellUnderBlock == null || cellUnderBlock.IsFilled)
                 {
                     return false;
                 }
             }
 
             return true;
+        }
+
+        public Cell[] GetCellsUnderBlocks()
+        {
+            List<Cell> cells = new List<Cell>();
+
+            foreach (Block block in _blocks)
+            {
+                Cell cellUnder = block.GetCellUnder();
+
+                if (cellUnder != null)
+                {
+                    cells.Add(cellUnder);
+                }
+            }
+
+            return cells.ToArray();
         }
     }
 }

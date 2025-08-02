@@ -17,8 +17,21 @@ namespace Gameplay
 
         private void Update()
         {
-            MovePickedFigure();
-            _pickedFigure.gameObject.SetActive(_pickedFigure.IsCanPutBlocks() && Input.GetMouseButton(0));
+            if (Input.GetMouseButton(0))
+            {
+                MovePickedFigure();
+                _pickedFigure.gameObject.SetActive(_pickedFigure.IsCanPutBlocks() && Input.GetMouseButton(0));
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                if (_pickedFigure.IsCanPutBlocks())
+                {
+                    foreach (Cell cell in _pickedFigure.GetCellsUnderBlocks())
+                    {
+                        cell.IsFilled = true;
+                    }
+                }
+            }
         }
 
         private void MovePickedFigure()
