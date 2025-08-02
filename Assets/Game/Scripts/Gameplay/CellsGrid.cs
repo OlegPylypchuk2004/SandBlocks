@@ -44,8 +44,7 @@ namespace Gameplay
 
         private IEnumerator SimulationCoroutine(Cell[] cells)
         {
-            List<Cell> simulationCells = cells.OrderBy(cell => cell.transform.position.y)
-                .ToList();
+            List<Cell> simulationCells = cells.OrderBy(cell => cell.transform.position.y).ToList();
 
             do
             {
@@ -78,24 +77,36 @@ namespace Gameplay
                     simulationCells.Remove(cellToRemove);
                 }
 
+                if (cellsToAdd.Count == 0 && cellsToRemove.Count == 0)
+                {
+                    break;
+                }
+
                 yield return new WaitForSeconds(_simulationDelay);
-            }
-            while (simulationCells.Count > 0);
+
+            } while (simulationCells.Count > 0);
         }
 
         private Cell GetNeighboringCell(Cell cell)
         {
-            Vector2Int coordinates = GetCellCoordinates(cell);
+            Vector2Int? coordinates = GetCellCoordinates(cell);
 
-            if (coordinates.y + 1 < _cells.GetLength(0))
+            if (!coordinates.HasValue)
             {
-                return _cells[coordinates.y + 1, coordinates.x];
+                return null;
+            }
+
+            Vector2Int coords = coordinates.Value;
+
+            if (coords.y + 1 < _cells.GetLength(0))
+            {
+                return _cells[coords.y + 1, coords.x];
             }
 
             return null;
         }
 
-        private Vector2Int GetCellCoordinates(Cell cell)
+        private Vector2Int? GetCellCoordinates(Cell cell)
         {
             for (int y = 0; y < _cells.GetLength(0); y++)
             {
@@ -108,7 +119,7 @@ namespace Gameplay
                 }
             }
 
-            return new Vector2Int(-1, -1);
+            return null;
         }
     }
 }
