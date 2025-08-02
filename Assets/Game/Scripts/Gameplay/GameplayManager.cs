@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Gameplay
@@ -11,6 +12,10 @@ namespace Gameplay
 
         private PickupableFigure _pickedFigure;
 
+        public event Action<PickupableFigure> FigureWasPicked;
+        public event Action<PickupableFigure> FigureWasPlaced;
+        public event Action<PickupableFigure> FigureWasDropped;
+
         private void Start()
         {
             _cellsGrid.Generate(_gridSize);
@@ -23,13 +28,7 @@ namespace Gameplay
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Ray2D ray = new Ray2D(GetMouseWorldPosition(), Vector2.zero);
-                    RaycastHit2D raycastHit = Physics2D.Raycast(ray.origin, ray.direction, 1f, _pickupableFigureLayerMask);
-
-                    if (raycastHit.collider != null && raycastHit.collider.TryGetComponent(out PickupableFigure pickupableFigure))
-                    {
-                        _pickedFigure = pickupableFigure;
-                    }
+                    PickupFigure();
                 }
             }
             else
@@ -40,26 +39,22 @@ namespace Gameplay
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
-                    if (_pickedFigure.IsCanPutBlocks())
-                    {
-                        Cell[] cellsUnderBlocks = _pickedFigure.GetCellsUnderBlocks();
-
-                        if (cellsUnderBlocks.Length == 0)
-                        {
-                            return;
-                        }
-
-                        foreach (Cell cell in cellsUnderBlocks)
-                        {
-                            cell.IsFilled = true;
-                        }
-
-                        _cellsGrid.Simulate(cellsUnderBlocks);
-                    }
-
-                    Destroy(_pickedFigure.gameObject);
-                    _pickedFigure = null;
+                    PutBlocks();
                 }
+            }
+        }
+
+        private void PickupFigure()
+        {
+            Ray2D ray = new Ray2D(GetMouseWorldPosition(), Vector2.zero);
+            RaycastHit2D raycastHit = Physics2D.Raycast(ray.origin, ray.direction, 1f, _pickupableFigureLayerMask);
+
+            if (raycastHit.collider != null && raycastHit.collider.TryGetComponent(out PickupableFigure pickupableFigure))
+            {
+                _pickedFigure = pickupableFigure;
+                _pickedFigure.transform.SetParent(null);
+
+                FigureWasPicked?.Invoke(_pickedFigure);
             }
         }
 
@@ -76,6 +71,37 @@ namespace Gameplay
             mouseWorldPosition.z = _pickedFigure.transform.position.z;
 
             _pickedFigure.transform.position = mouseWorldPosition;
+        }
+
+        private void PutBlocks()
+        {
+            if (_pickedFigure.IsCanPutBlocks())
+            {
+                Cell[] cellsUnderBlocks = _pickedFigure.GetCellsUnderBlocks();
+
+                if (cellsUnderBlocks.Length == 0)
+                {
+                    return;
+                }
+
+                foreach (Cell cell in cellsUnderBlocks)
+                {
+                    cell.IsFilled = true;
+                }
+
+                _cellsGrid.Simulate(cellsUnderBlocks);
+
+                FigureWasPlaced?.Invoke(_pickedFigure);
+
+                Destroy(_pickedFigure.gameObject);
+                _pickedFigure = null;
+            }
+            else
+            {
+                FigureWasDropped?.Invoke(_pickedFigure);
+
+                _pickedFigure = null;
+            }
         }
 
         private Vector3 GetMouseWorldPosition()
