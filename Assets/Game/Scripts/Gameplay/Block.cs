@@ -9,7 +9,7 @@ namespace Gameplay
         public Cell GetCellUnder()
         {
             Ray2D ray = new Ray2D(transform.position, Vector2.zero);
-            RaycastHit2D raycastHit = Physics2D.Raycast(ray.origin, ray.direction);
+            RaycastHit2D raycastHit = Physics2D.Raycast(ray.origin, ray.direction, 1f, _cellLayerMask);
 
             if (raycastHit.collider == null)
             {

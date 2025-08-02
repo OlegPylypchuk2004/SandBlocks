@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gameplay
 {
-    public class PickedFigure : MonoBehaviour
+    public class PickupableFigure : MonoBehaviour
     {
         [SerializeField] private Block[] _blocks;
 
