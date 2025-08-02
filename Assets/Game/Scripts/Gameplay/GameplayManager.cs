@@ -41,6 +41,8 @@ namespace Gameplay
 
                     _cellsGrid.Simulate(cellsUnderBlocks);
                 }
+
+                _pickedFigure.gameObject.SetActive(false);
             }
         }
 

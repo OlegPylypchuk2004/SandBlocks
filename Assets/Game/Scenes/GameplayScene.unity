@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b69087d175840a469e301476a5f59d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _simulationDelay: 0.125
+  _simulationDelay: 0.05
   _cellPrefab: {fileID: 5118777048761855548, guid: e5eb20d607e63a14d9fb93f943be1230, type: 3}
   _layoutGroup: {fileID: 270584716}
 --- !u!4 &270584718

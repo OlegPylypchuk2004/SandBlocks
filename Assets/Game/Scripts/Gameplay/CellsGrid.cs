@@ -1,5 +1,6 @@
 using CustomLayoutGroup;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -43,37 +44,43 @@ namespace Gameplay
 
         private IEnumerator SimulationCoroutine(Cell[] cells)
         {
-            cells = cells.OrderBy(cell => cell.transform.position.y)
-                .ToArray();
-
-            bool isCompleted = false;
+            List<Cell> simulationCells = cells.OrderBy(cell => cell.transform.position.y)
+                .ToList();
 
             do
             {
-                isCompleted = true;
+                List<Cell> cellsToAdd = new List<Cell>();
+                List<Cell> cellsToRemove = new List<Cell>();
 
-                foreach (Cell cell in cells)
+                foreach (Cell cell in simulationCells)
                 {
                     Cell neighboringCell = GetNeighboringCell(cell);
 
-                    if (neighboringCell == null)
+                    if (neighboringCell == null || neighboringCell.IsFilled)
                     {
                         continue;
                     }
 
-                    if (neighboringCell.IsFilled)
-                    {
-                        continue;
-                    }
-
-                    isCompleted = false;
                     cell.IsFilled = false;
                     neighboringCell.IsFilled = true;
+
+                    cellsToAdd.Add(neighboringCell);
+                    cellsToRemove.Add(cell);
+                }
+
+                foreach (Cell cellToAdd in cellsToAdd)
+                {
+                    simulationCells.Add(cellToAdd);
+                }
+
+                foreach (Cell cellToRemove in cellsToRemove)
+                {
+                    simulationCells.Remove(cellToRemove);
                 }
 
                 yield return new WaitForSeconds(_simulationDelay);
             }
-            while (!isCompleted);
+            while (simulationCells.Count > 0);
         }
 
         private Cell GetNeighboringCell(Cell cell)
