@@ -9,7 +9,14 @@ namespace Gameplay
 
         public bool IsCanPutBlocks()
         {
-            foreach (Cell cellUnderBlock in GetCellsUnderBlocks())
+            Cell[] cellsUnderBlocks = GetCellsUnderBlocks();
+
+            if (cellsUnderBlocks.Length == 0 || cellsUnderBlocks.Length < _blocks.Length)
+            {
+                return false;
+            }
+
+            foreach (Cell cellUnderBlock in cellsUnderBlocks)
             {
                 if (cellUnderBlock == null || cellUnderBlock.IsFilled)
                 {

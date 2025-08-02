@@ -21,7 +21,7 @@ namespace Gameplay
             if (Input.GetMouseButton(0))
             {
                 MovePickedFigure();
-                _pickedFigure.gameObject.SetActive(_pickedFigure.IsCanPutBlocks() && Input.GetMouseButton(0));
+                _pickedFigure.gameObject.SetActive(_pickedFigure.IsCanPutBlocks());
             }
             else if (Input.GetMouseButtonUp(0))
             {
