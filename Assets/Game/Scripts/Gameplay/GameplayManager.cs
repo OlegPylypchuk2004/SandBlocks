@@ -13,6 +13,7 @@ namespace Gameplay
         {
             _cellsGrid.Generate(_gridSize);
             _camera.orthographicSize = Mathf.Max(_gridSize.x, _gridSize.y);
+            _pickedFigure.gameObject.SetActive(false);
         }
 
         private void Update()
@@ -26,10 +27,19 @@ namespace Gameplay
             {
                 if (_pickedFigure.IsCanPutBlocks())
                 {
-                    foreach (Cell cell in _pickedFigure.GetCellsUnderBlocks())
+                    Cell[] cellsUnderBlocks = _pickedFigure.GetCellsUnderBlocks();
+
+                    if (cellsUnderBlocks.Length == 0)
+                    {
+                        return;
+                    }
+
+                    foreach (Cell cell in cellsUnderBlocks)
                     {
                         cell.IsFilled = true;
                     }
+
+                    _cellsGrid.Simulate(cellsUnderBlocks);
                 }
             }
         }

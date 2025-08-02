@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b69087d175840a469e301476a5f59d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _simulationDelay: 0.125
   _cellPrefab: {fileID: 5118777048761855548, guid: e5eb20d607e63a14d9fb93f943be1230, type: 3}
   _layoutGroup: {fileID: 270584716}
 --- !u!4 &270584718
@@ -242,7 +243,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 602b0dbee2d323f4799c6166a67b66e3, type: 3}
---- !u!114 &896604884 stripped
+--- !u!114 &896604885 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4401622728758171412, guid: 602b0dbee2d323f4799c6166a67b66e3, type: 3}
   m_PrefabInstance: {fileID: 896604883}
@@ -377,7 +378,7 @@ MonoBehaviour:
   _gridSize: {x: 25, y: 25}
   _cellsGrid: {fileID: 270584717}
   _camera: {fileID: 963194227}
-  _pickedFigure: {fileID: 896604884}
+  _pickedFigure: {fileID: 896604885}
 --- !u!4 &1303467809
 Transform:
   m_ObjectHideFlags: 0
