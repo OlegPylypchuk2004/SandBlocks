@@ -44,11 +44,11 @@ namespace Gameplay
 
         private IEnumerator SimulationCoroutine(Cell[] cells)
         {
-            List<Cell> simulationCells = cells.OrderBy(cell => cell.transform.position.y).ToList();
+            HashSet<Cell> simulationCells = cells.OrderBy(cell => cell.transform.position.y).ToHashSet();
 
             while (simulationCells.Count > 0)
             {
-                List<Cell> nextStepCells = new List<Cell>();
+                HashSet<Cell> nextStepCells = new HashSet<Cell>();
 
                 foreach (Cell cell in simulationCells)
                 {
