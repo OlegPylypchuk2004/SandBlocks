@@ -43,37 +43,40 @@ namespace Gameplay
 
         private IEnumerator SimulationCoroutine(Block[] blocks)
         {
+            Block[] simulationBlocks = blocks.OrderBy(block => block.transform.position.y).ToArray();
             bool isCompleted = false;
 
             while (!isCompleted)
             {
-                Block[] simulationBlocks = blocks.OrderBy(block => block.transform.position.y).ToArray();
-
                 for (int i = 0; i < simulationBlocks.Length; i++)
                 {
                     Block block = simulationBlocks[i];
                     Cell neighborCell = GetNeighboringCell(block.GetCellUnder());
 
-                    if (neighborCell == null || neighborCell.IsFilled)
+                    if (neighborCell != null && !neighborCell.IsFilled)
                     {
-                        continue;
+                        block.GetCellUnder().IsFilled = false;
+                        block.transform.position = neighborCell.transform.position;
+                        neighborCell.IsFilled = true;
+
+                        //yield return null;
+
+                        break;
                     }
 
-                    block.GetCellUnder().IsFilled = false;
-                    block.transform.position = neighborCell.transform.position;
-                    neighborCell.IsFilled = true;
+                    yield return null;
 
-                    if (i >= simulationBlocks.Length - 1)
-                    {
-                        isCompleted = true;
-                    }
-                    else
-                    {
-                        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.DownArrow));
-                    }
+                    //
+
+                    //if (i == simulationBlocks.Length - 1)
+                    //{
+                    //    yield return new WaitForSeconds(_simulationDelay);
+                    //}
+                    //else
+                    //{
+                    //    yield return null;
+                    //}
                 }
-
-                //yield return new WaitForSeconds(_simulationDelay);
             }
         }
 
@@ -87,10 +90,37 @@ namespace Gameplay
             }
 
             Vector2Int coords = coordinates.Value;
+            int rows = _cells.GetLength(0);
+            int cols = _cells.GetLength(1);
 
-            if (coords.y + 1 < _cells.GetLength(0))
+            if (coords.y + 1 < rows)
             {
-                return _cells[coords.y + 1, coords.x];
+                Cell below = _cells[coords.y + 1, coords.x];
+
+                if (below != null && !below.IsFilled)
+                {
+                    return below;
+                }
+
+                if (coords.x - 1 >= 0)
+                {
+                    Cell belowLeft = _cells[coords.y + 1, coords.x - 1];
+
+                    if (belowLeft != null && !belowLeft.IsFilled)
+                    {
+                        return belowLeft;
+                    }
+                }
+
+                if (coords.x + 1 < cols)
+                {
+                    Cell belowRight = _cells[coords.y + 1, coords.x + 1];
+
+                    if (belowRight != null && !belowRight.IsFilled)
+                    {
+                        return belowRight;
+                    }
+                }
             }
 
             return null;

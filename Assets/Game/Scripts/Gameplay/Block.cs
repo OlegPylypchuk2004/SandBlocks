@@ -6,6 +6,7 @@ namespace Gameplay
     {
         [SerializeField] private LayerMask _cellLayerMask;
         [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private GameObject _isAView;
 
         public void ApplyColor(Color color)
         {
