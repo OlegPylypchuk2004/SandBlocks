@@ -89,7 +89,12 @@ namespace Gameplay
                     cell.IsFilled = true;
                 }
 
-                _cellsGrid.Simulate(cellsUnderBlocks);
+                _cellsGrid.Simulate(_pickedFigure.Blocks);
+
+                foreach (Block block in _pickedFigure.Blocks)
+                {
+                    block.transform.SetParent(null);
+                }
 
                 FigureWasPlaced?.Invoke(_pickedFigure);
 

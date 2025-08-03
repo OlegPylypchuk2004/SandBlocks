@@ -1,7 +1,5 @@
 using CustomLayoutGroup;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Gameplay
@@ -31,7 +29,7 @@ namespace Gameplay
             _layoutGroup.UpdateLayout();
         }
 
-        public void Simulate(Cell[] cells)
+        public void Simulate(Block[] blocks)
         {
             if (_simulationCoroutine != null)
             {
@@ -39,41 +37,43 @@ namespace Gameplay
                 _simulationCoroutine = null;
             }
 
-            _simulationCoroutine = StartCoroutine(SimulationCoroutine(cells));
+            _simulationCoroutine = StartCoroutine(SimulationCoroutine(blocks));
         }
 
-        private IEnumerator SimulationCoroutine(Cell[] cells)
+        private IEnumerator SimulationCoroutine(Block[] blocks)
         {
-            HashSet<Cell> simulationCells = cells.OrderBy(cell => cell.transform.position.y).ToHashSet();
+            yield break;
 
-            while (simulationCells.Count > 0)
-            {
-                HashSet<Cell> nextStepCells = new HashSet<Cell>();
+            //HashSet<Cell> simulationCells = cells.OrderBy(cell => cell.transform.position.y).ToHashSet();
 
-                foreach (Cell cell in simulationCells)
-                {
-                    Cell neighbor = GetNeighboringCell(cell);
+            //while (simulationCells.Count > 0)
+            //{
+            //    HashSet<Cell> nextStepCells = new HashSet<Cell>();
 
-                    if (neighbor == null || neighbor.IsFilled)
-                    {
-                        continue;
-                    }
+            //    foreach (Cell cell in simulationCells)
+            //    {
+            //        Cell neighbor = GetNeighboringCell(cell);
 
-                    cell.IsFilled = false;
-                    neighbor.IsFilled = true;
+            //        if (neighbor == null || neighbor.IsFilled)
+            //        {
+            //            continue;
+            //        }
 
-                    nextStepCells.Add(neighbor);
-                }
+            //        cell.IsFilled = false;
+            //        neighbor.IsFilled = true;
 
-                if (nextStepCells.Count == 0)
-                {
-                    break;
-                }
+            //        nextStepCells.Add(neighbor);
+            //    }
 
-                simulationCells = nextStepCells;
+            //    if (nextStepCells.Count == 0)
+            //    {
+            //        break;
+            //    }
 
-                yield return new WaitForSeconds(_simulationDelay);
-            }
+            //    simulationCells = nextStepCells;
+
+            //    yield return new WaitForSeconds(_simulationDelay);
+            //    }
         }
 
         private Cell GetNeighboringCell(Cell cell)

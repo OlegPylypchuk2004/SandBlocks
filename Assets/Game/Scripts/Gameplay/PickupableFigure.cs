@@ -9,6 +9,8 @@ namespace Gameplay
 
         private Color _color;
 
+        public Block[] Blocks => _blocks;
+
         public Color Color
         {
             get
