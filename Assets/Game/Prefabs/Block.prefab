@@ -100,3 +100,4 @@ MonoBehaviour:
   _cellLayerMask:
     serializedVersion: 2
     m_Bits: 8
+  _spriteRenderer: {fileID: 52496368899288212}

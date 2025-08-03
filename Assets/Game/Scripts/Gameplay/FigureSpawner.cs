@@ -8,8 +8,12 @@ namespace Gameplay
         [SerializeField] private FigureSpawnPoint[] _spawnPoints;
         [SerializeField] private GameplayManager _gameplayManager;
 
+        private ColorConfig[] _colorConfigs;
+
         private void Start()
         {
+            _colorConfigs = Resources.LoadAll<ColorConfig>("Configs/Colors");
+
             SpawnFigures();
 
             _gameplayManager.FigureWasPicked += OnFigureWasPicked;
@@ -34,6 +38,8 @@ namespace Gameplay
                 }
 
                 PickupableFigure figure = Instantiate(_figurePrefabs[Random.Range(0, _figurePrefabs.Length)]);
+                figure.Color = _colorConfigs[Random.Range(0, _colorConfigs.Length)].Color;
+
                 spawnPoint.Figure = figure;
             }
         }

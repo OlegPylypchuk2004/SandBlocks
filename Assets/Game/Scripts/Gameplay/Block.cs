@@ -5,6 +5,12 @@ namespace Gameplay
     public class Block : MonoBehaviour
     {
         [SerializeField] private LayerMask _cellLayerMask;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+
+        public void ApplyColor(Color color)
+        {
+            _spriteRenderer.color = color;
+        }
 
         public Cell GetCellUnder()
         {

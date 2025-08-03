@@ -7,6 +7,25 @@ namespace Gameplay
     {
         [SerializeField] private Block[] _blocks;
 
+        private Color _color;
+
+        public Color Color
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+
+                foreach (Block block in _blocks)
+                {
+                    block.ApplyColor(_color);
+                }
+            }
+        }
+
         public bool IsCanPutBlocks()
         {
             Cell[] cellsUnderBlocks = GetCellsUnderBlocks();
