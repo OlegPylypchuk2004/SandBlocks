@@ -60,17 +60,12 @@ namespace Gameplay
 
         private void MovePickedFigure()
         {
-            Vector3 mouseWorldPosition = GetMouseWorldPosition();
+            Vector3 figureTargetPosition = GetMouseWorldPosition();
+            figureTargetPosition.x = Mathf.Round(figureTargetPosition.x);
+            figureTargetPosition.y = Mathf.Round(figureTargetPosition.y);
+            figureTargetPosition.z = _pickedFigure.transform.position.z;
 
-            if (_pickedFigure.IsCanPutBlocks())
-            {
-                mouseWorldPosition.x = Mathf.Round(mouseWorldPosition.x);
-                mouseWorldPosition.y = Mathf.Round(mouseWorldPosition.y);
-            }
-
-            mouseWorldPosition.z = _pickedFigure.transform.position.z;
-
-            _pickedFigure.transform.position = mouseWorldPosition;
+            _pickedFigure.transform.position = figureTargetPosition;
         }
 
         private void PutBlocks()
