@@ -57,9 +57,9 @@ namespace Gameplay
 
                     if (neighborCell != null && !neighborCell.IsFilled)
                     {
-                        block.GetCellUnder().IsFilled = false;
+                        block.GetCellUnder().Block = null;
                         block.Position = neighborCell.transform.position;
-                        neighborCell.IsFilled = true;
+                        neighborCell.Block = block;
 
                         isCellMoved = true;
                     }
@@ -80,16 +80,16 @@ namespace Gameplay
             }
 
             Vector2Int coords = coordinates.Value;
-            int rows = _cells.GetLength(0);
-            int cols = _cells.GetLength(1);
+            int rowsAmount = _cells.GetLength(0);
+            int columnsAmount = _cells.GetLength(1);
 
-            if (coords.y + 1 < rows)
+            if (coords.y + 1 < rowsAmount)
             {
-                Cell below = _cells[coords.y + 1, coords.x];
+                Cell belowCell = _cells[coords.y + 1, coords.x];
 
-                if (below != null && !below.IsFilled)
+                if (belowCell != null && !belowCell.IsFilled)
                 {
-                    return below;
+                    return belowCell;
                 }
 
                 if (coords.x - 1 >= 0)
@@ -102,7 +102,7 @@ namespace Gameplay
                     }
                 }
 
-                if (coords.x + 1 < cols)
+                if (coords.x + 1 < columnsAmount)
                 {
                     Cell belowRight = _cells[coords.y + 1, coords.x + 1];
 

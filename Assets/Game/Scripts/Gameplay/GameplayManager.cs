@@ -81,9 +81,9 @@ namespace Gameplay
                     return;
                 }
 
-                foreach (Cell cell in cellsUnderBlocks)
+                for (int i = 0; i < cellsUnderBlocks.Length; i++)
                 {
-                    cell.IsFilled = true;
+                    cellsUnderBlocks[i].Block = _pickedFigure.Blocks[i];
                 }
 
                 _cellsGrid.Simulate(_pickedFigure.Blocks);
