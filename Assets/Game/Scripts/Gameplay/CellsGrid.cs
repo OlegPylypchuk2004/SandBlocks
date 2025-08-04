@@ -1,5 +1,6 @@
 using CustomLayoutGroup;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -78,6 +79,8 @@ namespace Gameplay
             while (isCellMoved);
 
             _simulationCoroutine = null;
+
+            DestroyBlocks();
         }
 
         private bool TryMoveBlock(Block block, Cell cell)
@@ -145,6 +148,96 @@ namespace Gameplay
             }
 
             return null;
+        }
+
+        private void DestroyBlocks()
+        {
+            int rows = _cells.GetLength(0);
+            int columns = _cells.GetLength(1);
+            bool[,] visited = new bool[rows, columns];
+            bool isCellsDestroyed = false;
+
+            for (int y = 0; y < rows; y++)
+            {
+                for (int x = 0; x < columns; x++)
+                {
+                    if (visited[y, x]) continue;
+
+                    Block startBlock = _cells[y, x].Block;
+
+                    if (startBlock == null)
+                    {
+                        continue;
+                    }
+
+                    List<Vector2Int> group = new List<Vector2Int>();
+                    HashSet<int> touchedColumns = new HashSet<int>();
+
+                    FloodFill(y, x, startBlock.Color, visited, group, touchedColumns);
+
+                    if (touchedColumns.Contains(0) && touchedColumns.Contains(columns - 1))
+                    {
+                        foreach (var pos in group)
+                        {
+                            Block block = _cells[pos.y, pos.x].Block;
+                            if (block != null)
+                            {
+                                Destroy(block.gameObject);
+                                _cells[pos.y, pos.x].Block = null;
+
+                                isCellsDestroyed = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (isCellsDestroyed)
+            {
+                //TrySimulate();
+            }
+        }
+
+        private void FloodFill(int y, int x, Color targetColor, bool[,] visited, List<Vector2Int> group, HashSet<int> touchedColumns)
+        {
+            int rows = _cells.GetLength(0);
+            int columns = _cells.GetLength(1);
+
+            Queue<Vector2Int> queue = new Queue<Vector2Int>();
+            queue.Enqueue(new Vector2Int(x, y));
+
+            while (queue.Count > 0)
+            {
+                Vector2Int current = queue.Dequeue();
+                int currentX = current.x;
+                int currentY = current.y;
+
+                if (currentX < 0 || currentX >= columns || currentY < 0 || currentY >= rows)
+                {
+                    continue;
+                }
+
+                if (visited[currentY, currentX])
+                {
+                    continue;
+                }
+
+                Block block = _cells[currentY, currentX].Block;
+
+                if (block == null || block.Color != targetColor)
+                {
+                    continue;
+                }
+
+                visited[currentY, currentX] = true;
+                group.Add(new Vector2Int(currentX, currentY));
+                touchedColumns.Add(currentX);
+
+                queue.Enqueue(new Vector2Int(currentX + 1, currentY));
+                queue.Enqueue(new Vector2Int(currentX - 1, currentY));
+                queue.Enqueue(new Vector2Int(currentX, currentY + 1));
+                queue.Enqueue(new Vector2Int(currentX, currentY - 1));
+            }
         }
     }
 }
