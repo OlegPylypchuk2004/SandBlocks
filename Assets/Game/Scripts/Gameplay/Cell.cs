@@ -6,6 +6,8 @@ namespace Gameplay
     {
         private Block _block;
 
+        public Vector2Int Coordinates { get; set; }
+
         public Block Block
         {
             get

@@ -22,7 +22,10 @@ namespace Gameplay
             {
                 for (int x = 0; x < _cells.GetLength(1); x++)
                 {
-                    _cells[y, x] = Instantiate(_cellPrefab, _layoutGroup.transform);
+                    Cell cell = Instantiate(_cellPrefab, _layoutGroup.transform);
+                    cell.Coordinates = new Vector2Int(x, y);
+
+                    _cells[y, x] = cell;
                 }
             }
 
@@ -82,30 +85,29 @@ namespace Gameplay
 
         private Cell GetNeighboringCell(Cell cell)
         {
-            Vector2Int? coordinates = GetCellCoordinates(cell);
-
-            if (!coordinates.HasValue)
+            if (cell == null)
             {
                 return null;
             }
 
-            Vector2Int coords = coordinates.Value;
+            Vector2Int coordinates = cell.Coordinates;
+
             int rowsAmount = _cells.GetLength(0);
             int columnsAmount = _cells.GetLength(1);
 
-            if (coords.y + 1 < rowsAmount)
+            if (coordinates.y + 1 < rowsAmount)
             {
-                Cell belowCell = _cells[coords.y + 1, coords.x];
+                Cell belowCell = _cells[coordinates.y + 1, coordinates.x];
 
                 if (belowCell != null && !belowCell.IsFilled)
                 {
                     return belowCell;
                 }
 
-                if (coords.x - 1 >= 0)
+                if (coordinates.x - 1 >= 0)
                 {
-                    Cell belowLeft = _cells[coords.y + 1, coords.x - 1];
-                    Cell upCell = _cells[coords.y, coords.x - 1];
+                    Cell belowLeft = _cells[coordinates.y + 1, coordinates.x - 1];
+                    Cell upCell = _cells[coordinates.y, coordinates.x - 1];
 
                     if (belowLeft != null && !belowLeft.IsFilled)
                     {
@@ -116,10 +118,10 @@ namespace Gameplay
                     }
                 }
 
-                if (coords.x + 1 < columnsAmount)
+                if (coordinates.x + 1 < columnsAmount)
                 {
-                    Cell belowRight = _cells[coords.y + 1, coords.x + 1];
-                    Cell upCell = _cells[coords.y, coords.x + 1];
+                    Cell belowRight = _cells[coordinates.y + 1, coordinates.x + 1];
+                    Cell upCell = _cells[coordinates.y, coordinates.x + 1];
 
                     if (belowRight != null && !belowRight.IsFilled)
                     {
@@ -127,22 +129,6 @@ namespace Gameplay
                         {
                             return belowRight;
                         }
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        private Vector2Int? GetCellCoordinates(Cell cell)
-        {
-            for (int y = 0; y < _cells.GetLength(0); y++)
-            {
-                for (int x = 0; x < _cells.GetLength(1); x++)
-                {
-                    if (_cells[y, x] == cell)
-                    {
-                        return new Vector2Int(x, y);
                     }
                 }
             }
