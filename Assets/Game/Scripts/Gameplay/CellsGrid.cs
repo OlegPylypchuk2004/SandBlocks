@@ -55,12 +55,8 @@ namespace Gameplay
                     Block block = simulationBlocks[i];
                     Cell neighborCell = GetNeighboringCell(block.GetCellUnder());
 
-                    if (neighborCell != null && !neighborCell.IsFilled)
+                    if (TryMoveBlock(block, neighborCell))
                     {
-                        block.GetCellUnder().Block = null;
-                        block.Position = neighborCell.transform.position;
-                        neighborCell.Block = block;
-
                         isCellMoved = true;
                     }
                 }
@@ -68,6 +64,20 @@ namespace Gameplay
                 yield return new WaitForSeconds(_simulationDelay);
             }
             while (isCellMoved);
+        }
+
+        private bool TryMoveBlock(Block block, Cell cell)
+        {
+            if (cell == null || cell.IsFilled)
+            {
+                return false;
+            }
+
+            block.GetCellUnder().Block = null;
+            block.Position = cell.transform.position;
+            cell.Block = block;
+
+            return true;
         }
 
         private Cell GetNeighboringCell(Cell cell)
