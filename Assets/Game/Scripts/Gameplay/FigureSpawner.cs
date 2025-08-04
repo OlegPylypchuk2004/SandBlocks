@@ -37,7 +37,7 @@ namespace Gameplay
                     continue;
                 }
 
-                PickupableFigure figure = Instantiate(_figurePrefabs[Random.Range(0, _figurePrefabs.Length)]);
+                PickupableFigure figure = Instantiate(_figurePrefabs[Random.Range(0, _figurePrefabs.Length)], spawnPoint.transform);
                 figure.Color = _colorConfigs[Random.Range(0, _colorConfigs.Length)].Color;
 
                 spawnPoint.Figure = figure;
