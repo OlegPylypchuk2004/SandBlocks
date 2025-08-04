@@ -34,10 +34,16 @@ namespace Gameplay
             float noise = Mathf.PerlinNoise(transform.position.x * noiseScale, transform.position.y * noiseScale);
             float darkness = 1f - noise * darknessStrength;
 
-            Color color = _spriteRenderer.color;
-            color.a = Mathf.Clamp01(darkness);
+            // Зменшуємо яскравість кольору (RGB), але залишаємо alpha = 1
+            Color originalColor = _block.Color; // Наприклад, Color.white або інший базовий колір
+            Color darkenedColor = new Color(
+                originalColor.r * darkness,
+                originalColor.g * darkness,
+                originalColor.b * darkness,
+                1f // Альфа завжди максимальна
+            );
 
-            _spriteRenderer.color = color;
+            _spriteRenderer.color = darkenedColor;
         }
     }
 }

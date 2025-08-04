@@ -8,7 +8,10 @@ namespace Gameplay
         [SerializeField] private LayerMask _cellLayerMask;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
+        private Color _color;
+
         public event Action<Vector2> PositionChanged;
+        public event Action<Color> ColorChanged;
 
         public Vector2 Position
         {
@@ -24,9 +27,20 @@ namespace Gameplay
             }
         }
 
-        public void ApplyColor(Color color)
+        public Color Color
         {
-            _spriteRenderer.color = color;
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+
+                _spriteRenderer.color = _color;
+
+                ColorChanged?.Invoke(Color);
+            }
         }
 
         public Cell GetCellUnder()

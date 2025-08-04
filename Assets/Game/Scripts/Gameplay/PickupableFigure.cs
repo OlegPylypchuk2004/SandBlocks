@@ -23,7 +23,7 @@ namespace Gameplay
 
                 foreach (Block block in _blocks)
                 {
-                    block.ApplyColor(_color);
+                    block.Color = _color;
                 }
             }
         }

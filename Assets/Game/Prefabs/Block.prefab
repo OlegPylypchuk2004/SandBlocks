@@ -147,6 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noiseScale: 2.5
-  darknessStrength: 0.5
+  darknessStrength: 0.25
   _spriteRenderer: {fileID: 8005302952683416726}
   _block: {fileID: 6125720413485352919}
