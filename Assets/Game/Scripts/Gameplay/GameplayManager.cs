@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Gameplay
@@ -10,6 +12,7 @@ namespace Gameplay
         [SerializeField] private Camera _camera;
         [SerializeField] private LayerMask _pickupableFigureLayerMask;
 
+        private HashSet<Block> _blocks;
         private PickupableFigure _pickedFigure;
 
         public event Action<PickupableFigure> FigureWasPicked;
@@ -20,8 +23,17 @@ namespace Gameplay
         {
             Application.targetFrameRate = 60;
 
+            _blocks = new HashSet<Block>();
+
             _cellsGrid.Generate(_gridSize);
+            _cellsGrid.BlocksDestroyed += OnBlocksDestroyed;
+
             _camera.orthographicSize = Mathf.Min(_gridSize.x, _gridSize.y);
+        }
+
+        private void OnDestroy()
+        {
+            _cellsGrid.BlocksDestroyed -= OnBlocksDestroyed;
         }
 
         private void Update()
@@ -86,6 +98,11 @@ namespace Gameplay
                     cellsUnderBlocks[i].Block = _pickedFigure.Blocks[i];
                 }
 
+                foreach (Block block in _pickedFigure.Blocks)
+                {
+                    _blocks.Add(block);
+                }
+
                 if (_cellsGrid.TrySimulate(_pickedFigure.Blocks))
                 {
                     foreach (Block block in _pickedFigure.Blocks)
@@ -116,6 +133,16 @@ namespace Gameplay
         private Vector3 GetMouseWorldPosition()
         {
             return _camera.ScreenToWorldPoint(Input.mousePosition);
+        }
+
+        private void OnBlocksDestroyed(Block[] blocks)
+        {
+            foreach (Block block in blocks)
+            {
+                _blocks.Remove(block);
+            }
+
+            _cellsGrid.TrySimulate(_blocks.ToArray());
         }
     }
 }

@@ -1,4 +1,5 @@
 using CustomLayoutGroup;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace Gameplay
 
         private Cell[,] _cells;
         private Coroutine _simulationCoroutine;
+
+        public event Action<Block[]> BlocksDestroyed;
 
         public bool IsSimulationStarted
         {
@@ -155,7 +158,7 @@ namespace Gameplay
             int rows = _cells.GetLength(0);
             int columns = _cells.GetLength(1);
             bool[,] visited = new bool[rows, columns];
-            bool isCellsDestroyed = false;
+            List<Block> destroyedBlocks = new List<Block>();
 
             for (int y = 0; y < rows; y++)
             {
@@ -180,24 +183,24 @@ namespace Gameplay
                         foreach (var pos in group)
                         {
                             Block block = _cells[pos.y, pos.x].Block;
+
                             if (block != null)
                             {
                                 Destroy(block.gameObject);
                                 _cells[pos.y, pos.x].Block = null;
 
-                                isCellsDestroyed = true;
+                                destroyedBlocks.Add(block);
                             }
                         }
                     }
                 }
             }
 
-            if (isCellsDestroyed)
+            if (destroyedBlocks.Count > 0)
             {
-                //TrySimulate();
+                BlocksDestroyed?.Invoke(destroyedBlocks.ToArray());
             }
         }
-
         private void FloodFill(int y, int x, Color targetColor, bool[,] visited, List<Vector2Int> group, HashSet<int> touchedColumns)
         {
             int rows = _cells.GetLength(0);
