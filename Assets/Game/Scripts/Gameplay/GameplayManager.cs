@@ -18,6 +18,8 @@ namespace Gameplay
 
         private void Start()
         {
+            Application.targetFrameRate = 60;
+
             _cellsGrid.Generate(_gridSize);
             _camera.orthographicSize = Mathf.Max(_gridSize.x, _gridSize.y);
         }

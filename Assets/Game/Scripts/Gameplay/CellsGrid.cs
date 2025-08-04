@@ -44,10 +44,12 @@ namespace Gameplay
         private IEnumerator SimulationCoroutine(Block[] blocks)
         {
             Block[] simulationBlocks = blocks.OrderBy(block => block.transform.position.y).ToArray();
-            bool isCompleted = false;
+            bool isCellMoved = false;
 
-            while (!isCompleted)
+            do
             {
+                isCellMoved = false;
+
                 for (int i = 0; i < simulationBlocks.Length; i++)
                 {
                     Block block = simulationBlocks[i];
@@ -59,25 +61,13 @@ namespace Gameplay
                         block.transform.position = neighborCell.transform.position;
                         neighborCell.IsFilled = true;
 
-                        //yield return null;
-
-                        break;
+                        isCellMoved = true;
                     }
-
-                    yield return null;
-
-                    //
-
-                    //if (i == simulationBlocks.Length - 1)
-                    //{
-                    //    yield return new WaitForSeconds(_simulationDelay);
-                    //}
-                    //else
-                    //{
-                    //    yield return null;
-                    //}
                 }
+
+                yield return new WaitForSeconds(_simulationDelay);
             }
+            while (isCellMoved);
         }
 
         private Cell GetNeighboringCell(Cell cell)
