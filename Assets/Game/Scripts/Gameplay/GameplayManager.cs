@@ -86,17 +86,24 @@ namespace Gameplay
                     cellsUnderBlocks[i].Block = _pickedFigure.Blocks[i];
                 }
 
-                _cellsGrid.Simulate(_pickedFigure.Blocks);
-
-                foreach (Block block in _pickedFigure.Blocks)
+                if (_cellsGrid.TrySimulate(_pickedFigure.Blocks))
                 {
-                    block.transform.SetParent(null);
+                    foreach (Block block in _pickedFigure.Blocks)
+                    {
+                        block.transform.SetParent(null);
+                    }
+
+                    FigureWasPlaced?.Invoke(_pickedFigure);
+
+                    Destroy(_pickedFigure.gameObject);
+                    _pickedFigure = null;
                 }
+                else
+                {
+                    FigureWasDropped?.Invoke(_pickedFigure);
 
-                FigureWasPlaced?.Invoke(_pickedFigure);
-
-                Destroy(_pickedFigure.gameObject);
-                _pickedFigure = null;
+                    _pickedFigure = null;
+                }
             }
             else
             {

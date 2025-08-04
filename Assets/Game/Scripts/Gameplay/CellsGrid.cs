@@ -14,6 +14,14 @@ namespace Gameplay
         private Cell[,] _cells;
         private Coroutine _simulationCoroutine;
 
+        public bool IsSimulationStarted
+        {
+            get
+            {
+                return _simulationCoroutine != null;
+            }
+        }
+
         public void Generate(Vector2Int size)
         {
             _cells = new Cell[size.y, size.x];
@@ -33,15 +41,16 @@ namespace Gameplay
             _layoutGroup.UpdateLayout();
         }
 
-        public void Simulate(Block[] blocks)
+        public bool TrySimulate(Block[] blocks)
         {
-            if (_simulationCoroutine != null)
+            if (IsSimulationStarted)
             {
-                StopCoroutine(_simulationCoroutine);
-                _simulationCoroutine = null;
+                return false;
             }
 
             _simulationCoroutine = StartCoroutine(SimulationCoroutine(blocks));
+
+            return true;
         }
 
         private IEnumerator SimulationCoroutine(Block[] blocks)
@@ -67,6 +76,8 @@ namespace Gameplay
                 yield return new WaitForSeconds(_simulationDelay);
             }
             while (isCellMoved);
+
+            _simulationCoroutine = null;
         }
 
         private bool TryMoveBlock(Block block, Cell cell)
