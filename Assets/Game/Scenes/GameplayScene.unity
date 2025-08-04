@@ -415,6 +415,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _figurePrefabs:
   - {fileID: 4401622728758171412, guid: 602b0dbee2d323f4799c6166a67b66e3, type: 3}
+  - {fileID: 4401622728758171412, guid: 652f475dbcde50b49b88cda7c1ab425c, type: 3}
+  - {fileID: 4401622728758171412, guid: 3a38ddbe9604ce04086983079d7f5c3c, type: 3}
   _spawnPoints:
   - {fileID: 1473376479}
   - {fileID: 954840116}
