@@ -45,16 +45,15 @@ namespace Gameplay
             _layoutGroup.UpdateLayout();
         }
 
-        public bool TrySimulate(Block[] blocks)
+        public void Simulate(Block[] blocks)
         {
-            if (IsSimulationStarted)
+            if (_simulationCoroutine != null)
             {
-                return false;
+                StopCoroutine(_simulationCoroutine);
+                _simulationCoroutine = null;
             }
 
             _simulationCoroutine = StartCoroutine(SimulationCoroutine(blocks));
-
-            return true;
         }
 
         private IEnumerator SimulationCoroutine(Block[] blocks)

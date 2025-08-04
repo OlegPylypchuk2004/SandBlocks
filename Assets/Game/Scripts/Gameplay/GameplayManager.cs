@@ -84,6 +84,15 @@ namespace Gameplay
 
         private void PutBlocks()
         {
+            if (_cellsGrid.IsSimulationStarted)
+            {
+                FigureWasDropped?.Invoke(_pickedFigure);
+
+                _pickedFigure = null;
+
+                return;
+            }
+
             if (_pickedFigure.IsCanPutBlocks())
             {
                 Cell[] cellsUnderBlocks = _pickedFigure.GetCellsUnderBlocks();
@@ -103,24 +112,17 @@ namespace Gameplay
                     _blocks.Add(block);
                 }
 
-                if (_cellsGrid.TrySimulate(_pickedFigure.Blocks))
+                _cellsGrid.Simulate(_pickedFigure.Blocks);
+
+                foreach (Block block in _pickedFigure.Blocks)
                 {
-                    foreach (Block block in _pickedFigure.Blocks)
-                    {
-                        block.transform.SetParent(null);
-                    }
-
-                    FigureWasPlaced?.Invoke(_pickedFigure);
-
-                    Destroy(_pickedFigure.gameObject);
-                    _pickedFigure = null;
+                    block.transform.SetParent(null);
                 }
-                else
-                {
-                    FigureWasDropped?.Invoke(_pickedFigure);
 
-                    _pickedFigure = null;
-                }
+                FigureWasPlaced?.Invoke(_pickedFigure);
+
+                Destroy(_pickedFigure.gameObject);
+                _pickedFigure = null;
             }
             else
             {
@@ -142,7 +144,7 @@ namespace Gameplay
                 _blocks.Remove(block);
             }
 
-            _cellsGrid.TrySimulate(_blocks.ToArray());
+            _cellsGrid.Simulate(_blocks.ToArray());
         }
     }
 }
