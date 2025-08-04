@@ -105,20 +105,28 @@ namespace Gameplay
                 if (coords.x - 1 >= 0)
                 {
                     Cell belowLeft = _cells[coords.y + 1, coords.x - 1];
+                    Cell upCell = _cells[coords.y, coords.x - 1];
 
                     if (belowLeft != null && !belowLeft.IsFilled)
                     {
-                        return belowLeft;
+                        if (upCell == null || !upCell.IsFilled)
+                        {
+                            return belowLeft;
+                        }
                     }
                 }
 
                 if (coords.x + 1 < columnsAmount)
                 {
                     Cell belowRight = _cells[coords.y + 1, coords.x + 1];
+                    Cell upCell = _cells[coords.y, coords.x + 1];
 
                     if (belowRight != null && !belowRight.IsFilled)
                     {
-                        return belowRight;
+                        if (upCell == null || !upCell.IsFilled)
+                        {
+                            return belowRight;
+                        }
                     }
                 }
             }
