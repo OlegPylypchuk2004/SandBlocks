@@ -43,7 +43,7 @@ namespace Gameplay
 
         private IEnumerator SimulationCoroutine(Block[] blocks)
         {
-            Block[] simulationBlocks = blocks.OrderBy(block => block.transform.position.y).ToArray();
+            Block[] simulationBlocks = blocks.OrderBy(block => block.Position.y).ToArray();
             bool isCellMoved = false;
 
             do
@@ -58,7 +58,7 @@ namespace Gameplay
                     if (neighborCell != null && !neighborCell.IsFilled)
                     {
                         block.GetCellUnder().IsFilled = false;
-                        block.transform.position = neighborCell.transform.position;
+                        block.Position = neighborCell.transform.position;
                         neighborCell.IsFilled = true;
 
                         isCellMoved = true;

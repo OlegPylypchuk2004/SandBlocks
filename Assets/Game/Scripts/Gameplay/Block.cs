@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Gameplay
@@ -6,7 +7,22 @@ namespace Gameplay
     {
         [SerializeField] private LayerMask _cellLayerMask;
         [SerializeField] private SpriteRenderer _spriteRenderer;
-        [SerializeField] private GameObject _isAView;
+
+        public event Action<Vector2> PositionChanged;
+
+        public Vector2 Position
+        {
+            get
+            {
+                return transform.position;
+            }
+            set
+            {
+                transform.position = value;
+
+                PositionChanged?.Invoke(Position);
+            }
+        }
 
         public void ApplyColor(Color color)
         {
