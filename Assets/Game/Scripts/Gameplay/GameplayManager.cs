@@ -74,6 +74,7 @@ namespace Gameplay
         {
             Vector3 figureTargetPosition = GetMouseWorldPosition();
             figureTargetPosition.x = Mathf.Round(figureTargetPosition.x);
+            figureTargetPosition.x = Mathf.Clamp(figureTargetPosition.x, -_pickedFigure.MaxXPosition, _pickedFigure.MaxXPosition);
             figureTargetPosition.y = Mathf.Round(figureTargetPosition.y);
             figureTargetPosition.z = _pickedFigure.transform.position.z;
 

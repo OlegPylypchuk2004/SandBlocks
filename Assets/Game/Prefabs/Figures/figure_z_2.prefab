@@ -229,6 +229,7 @@ MonoBehaviour:
   - {fileID: 752859789577611213}
   - {fileID: 5302296985364244566}
   - {fileID: 509437957970432866}
+  <MaxXPosition>k__BackingField: 26
 --- !u!1001 &584076083956443638
 PrefabInstance:
   m_ObjectHideFlags: 0
