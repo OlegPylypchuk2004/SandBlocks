@@ -76,6 +76,7 @@ namespace Gameplay
             figureTargetPosition.x = Mathf.Round(figureTargetPosition.x);
             figureTargetPosition.x = Mathf.Clamp(figureTargetPosition.x, -_pickedFigure.MaxXPosition, _pickedFigure.MaxXPosition);
             figureTargetPosition.y = Mathf.Round(figureTargetPosition.y);
+            figureTargetPosition.y = Mathf.Clamp(figureTargetPosition.y, -100f, _pickedFigure.MaxYPosition);
             figureTargetPosition.z = _pickedFigure.transform.position.z;
 
             _pickedFigure.transform.position = figureTargetPosition;

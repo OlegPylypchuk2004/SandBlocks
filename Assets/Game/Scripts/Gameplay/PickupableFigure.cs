@@ -8,6 +8,7 @@ namespace Gameplay
         [SerializeField] private Block[] _blocks;
 
         [field: SerializeField] public float MaxXPosition { get; private set; }
+        [field: SerializeField] public float MaxYPosition { get; private set; }
 
         private Color _color;
 
