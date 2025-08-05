@@ -22,6 +22,8 @@ namespace UI
             {
                 gameObject.SetActive(true);
                 _canvasGroup.interactable = false;
+
+                AppearAnimationStarted();
             });
 
             _currentSequence.Append(_blurBackground.Appear());
@@ -32,10 +34,11 @@ namespace UI
 
             _currentSequence.Append(_panel.Appear());
 
-            _currentSequence.OnComplete(() =>
+            _currentSequence.AppendCallback(() =>
             {
                 _canvasGroup.interactable = true;
 
+                AppearAnimationCompleted();
                 SubscribeOnEvents();
             });
 
@@ -52,16 +55,21 @@ namespace UI
             {
                 _canvasGroup.interactable = false;
 
+                DisappearAnimationStarted();
                 UnsubscribeFromEvents();
             });
+
+            //_currentSequence.Append(_panel.Disappear());
 
             _currentSequence.Append(_canvasGroup.DOFade(0f, 0.25f)
                 .SetEase(Ease.InQuad));
 
             _currentSequence.Append(_blurBackground.Disappear());
 
-            _currentSequence.OnComplete(() =>
+            _currentSequence.AppendCallback(() =>
             {
+                DisappearAnimationCompleted();
+
                 gameObject.SetActive(false);
             });
 
@@ -77,5 +85,26 @@ namespace UI
         {
 
         }
+
+        protected virtual void AppearAnimationStarted()
+        {
+
+        }
+
+        protected virtual void AppearAnimationCompleted()
+        {
+
+        }
+
+        protected virtual void DisappearAnimationStarted()
+        {
+
+        }
+
+        protected virtual void DisappearAnimationCompleted()
+        {
+
+        }
+
     }
 }

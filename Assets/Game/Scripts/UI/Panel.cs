@@ -14,6 +14,12 @@ namespace UI
 
         private Sequence _currentSequence;
 
+        private void Awake()
+        {
+            _canvasGroup.interactable = false;
+            _canvasGroup.alpha = 0f;
+        }
+
         public Sequence Appear()
         {
             _currentSequence?.Kill();
