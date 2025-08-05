@@ -154,77 +154,88 @@ namespace Gameplay
 
         private IEnumerator DestroyBlocks()
         {
-            yield return new WaitForSeconds(0.075f);
+            bool isBlocksDestroyed = false;
 
-            int rows = _cells.GetLength(0);
-            int columns = _cells.GetLength(1);
-            bool[,] visited = new bool[rows, columns];
-            List<Block> blocksToDestroy = new List<Block>();
-
-            for (int y = 0; y < rows; y++)
+            do
             {
-                for (int x = 0; x < columns; x++)
+                isBlocksDestroyed = false;
+
+                yield return new WaitForSeconds(0.075f);
+
+                int rows = _cells.GetLength(0);
+                int columns = _cells.GetLength(1);
+                bool[,] visited = new bool[rows, columns];
+                List<Block> blocksToDestroy = new List<Block>();
+
+                for (int y = 0; y < rows; y++)
                 {
-                    if (visited[y, x]) continue;
-
-                    Block startBlock = _cells[y, x].Block;
-
-                    if (startBlock == null)
+                    for (int x = 0; x < columns; x++)
                     {
-                        continue;
-                    }
+                        if (visited[y, x]) continue;
 
-                    List<Vector2Int> group = new List<Vector2Int>();
-                    HashSet<int> touchedColumns = new HashSet<int>();
+                        Block startBlock = _cells[y, x].Block;
 
-                    FloodFill(y, x, startBlock.Color, visited, group, touchedColumns);
-
-                    if (touchedColumns.Contains(0) && touchedColumns.Contains(columns - 1))
-                    {
-                        foreach (var pos in group)
+                        if (startBlock == null)
                         {
-                            Block block = _cells[pos.y, pos.x].Block;
+                            continue;
+                        }
 
-                            if (block != null)
+                        List<Vector2Int> group = new List<Vector2Int>();
+                        HashSet<int> touchedColumns = new HashSet<int>();
+
+                        FloodFill(y, x, startBlock.Color, visited, group, touchedColumns);
+
+                        if (touchedColumns.Contains(0) && touchedColumns.Contains(columns - 1))
+                        {
+                            foreach (var pos in group)
                             {
-                                _cells[pos.y, pos.x].Block = null;
-                                block.IsShine = true;
+                                Block block = _cells[pos.y, pos.x].Block;
 
-                                blocksToDestroy.Add(block);
+                                if (block != null)
+                                {
+                                    _cells[pos.y, pos.x].Block = null;
+                                    block.IsShine = true;
+
+                                    blocksToDestroy.Add(block);
+                                }
                             }
                         }
                     }
                 }
+
+                if (blocksToDestroy.Count == 0)
+                {
+                    yield break;
+                }
+
+                yield return new WaitForSeconds(0.075f);
+
+                foreach (Block blockToDestroy in blocksToDestroy)
+                {
+                    blockToDestroy.IsShine = false;
+                }
+
+                yield return new WaitForSeconds(0.075f);
+
+                foreach (Block blockToDestroy in blocksToDestroy)
+                {
+                    blockToDestroy.IsShine = true;
+                }
+
+                yield return new WaitForSeconds(0.075f);
+
+                foreach (Block blockToDestroy in blocksToDestroy)
+                {
+                    Destroy(blockToDestroy.gameObject);
+                }
+
+                isBlocksDestroyed = true;
+
+                BlocksDestroyed?.Invoke(blocksToDestroy.ToArray());
             }
-
-            if (blocksToDestroy.Count == 0)
-            {
-                yield break;
-            }
-
-            yield return new WaitForSeconds(0.075f);
-
-            foreach (Block blockToDestroy in blocksToDestroy)
-            {
-                blockToDestroy.IsShine = false;
-            }
-
-            yield return new WaitForSeconds(0.075f);
-
-            foreach (Block blockToDestroy in blocksToDestroy)
-            {
-                blockToDestroy.IsShine = true;
-            }
-
-            yield return new WaitForSeconds(0.075f);
-
-            foreach (Block blockToDestroy in blocksToDestroy)
-            {
-                Destroy(blockToDestroy.gameObject);
-            }
-
-            BlocksDestroyed?.Invoke(blocksToDestroy.ToArray());
+            while (isBlocksDestroyed);
         }
+
         private void FloodFill(int y, int x, Color targetColor, bool[,] visited, List<Vector2Int> group, HashSet<int> touchedColumns)
         {
             int rows = _cells.GetLength(0);

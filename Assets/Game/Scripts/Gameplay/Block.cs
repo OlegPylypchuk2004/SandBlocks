@@ -63,6 +63,11 @@ namespace Gameplay
                 }
                 else
                 {
+                    if (_spriteRenderer == null)
+                    {
+                        return;
+                    }
+
                     _spriteRenderer.color = Color;
                 }
             }
