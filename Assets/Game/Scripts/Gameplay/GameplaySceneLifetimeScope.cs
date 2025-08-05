@@ -1,3 +1,4 @@
+using SceneManagment;
 using ScoreSystem;
 using UnityEngine;
 using VContainer;
@@ -12,6 +13,7 @@ namespace Gameplay
         protected override void Configure(IContainerBuilder builder)
         {
             builder.RegisterComponentInNewPrefab(_cellsGridPrefab, Lifetime.Singleton);
+            builder.Register<SceneLoader>(Lifetime.Singleton);
             builder.Register<ScoreCounter>(Lifetime.Singleton);
         }
     }

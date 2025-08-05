@@ -1,6 +1,8 @@
 using DG.Tweening;
+using SceneManagment;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace UI
 {
@@ -8,6 +10,14 @@ namespace UI
     {
         [SerializeField] private Button _yesButton;
         [SerializeField] private Button _noButton;
+
+        private SceneLoader _sceneLoader;
+
+        [Inject]
+        private void Construct(SceneLoader sceneLoader)
+        {
+            _sceneLoader = sceneLoader;
+        }
 
         public override Sequence Appear()
         {
@@ -53,7 +63,9 @@ namespace UI
 
         private void OnYesButtonClicked()
         {
+            Time.timeScale = 1f;
 
+            _sceneLoader.Load(_sceneLoader.CurrentSceneIndex);
         }
 
         private void OnNoButtonClicked()
