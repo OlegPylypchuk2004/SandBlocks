@@ -9,7 +9,7 @@ namespace ScoreSystem
     {
         [SerializeField] private float _animationDuration;
         [SerializeField] private Ease _animationEase;
-        [SerializeField] private TextMeshPro _textMesh;
+        [SerializeField] private TextMeshProUGUI _textMesh;
 
         private ScoreCounter _scoreCounter;
         private int _currentScore;
