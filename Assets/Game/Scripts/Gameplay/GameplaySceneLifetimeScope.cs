@@ -7,11 +7,11 @@ namespace Gameplay
 {
     public class GameplaySceneLifetimeScope : LifetimeScope
     {
-        [SerializeField] private CellsGrid _cellsGrid;
+        [SerializeField] private CellsGrid _cellsGridPrefab;
 
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.RegisterComponent(_cellsGrid);
+            builder.RegisterComponentInNewPrefab(_cellsGridPrefab, Lifetime.Singleton);
             builder.Register<ScoreCounter>(Lifetime.Singleton);
         }
     }

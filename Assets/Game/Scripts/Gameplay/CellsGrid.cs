@@ -9,6 +9,7 @@ namespace Gameplay
 {
     public class CellsGrid : MonoBehaviour
     {
+        [SerializeField] private Vector2Int _size;
         [SerializeField] private float _simulationDelay;
         [SerializeField] private Cell _cellPrefab;
         [SerializeField] private WorldSpaceGridLayoutGroup _layoutGroup;
@@ -26,9 +27,9 @@ namespace Gameplay
             }
         }
 
-        public void Generate(Vector2Int size)
+        public void Generate()
         {
-            _cells = new Cell[size.y, size.x];
+            _cells = new Cell[_size.y, _size.x];
 
             for (int y = 0; y < _cells.GetLength(0); y++)
             {
@@ -41,7 +42,7 @@ namespace Gameplay
                 }
             }
 
-            _layoutGroup.Columns = size.x;
+            _layoutGroup.Columns = _size.x;
             _layoutGroup.UpdateLayout();
         }
 

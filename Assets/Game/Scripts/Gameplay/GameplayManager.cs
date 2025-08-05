@@ -10,13 +10,13 @@ namespace Gameplay
     public class GameplayManager : MonoBehaviour
     {
         [SerializeField] private Vector2Int _gridSize;
-        [SerializeField] private CellsGrid _cellsGrid;
         [SerializeField] private Camera _camera;
         [SerializeField] private LayerMask _pickupableFigureLayerMask;
 
         private HashSet<Block> _blocks;
         private PickupableFigure _pickedFigure;
 
+        private CellsGrid _cellsGrid;
         private ScoreCounter _scoreCounter;
 
         public event Action<PickupableFigure> FigureWasPicked;
@@ -24,18 +24,17 @@ namespace Gameplay
         public event Action<PickupableFigure> FigureWasDropped;
 
         [Inject]
-        private void Construct(ScoreCounter scoreCounter)
+        private void Construct(CellsGrid cellsGrid, ScoreCounter scoreCounter)
         {
+            _cellsGrid = cellsGrid;
             _scoreCounter = scoreCounter;
         }
 
         private void Start()
         {
-            Application.targetFrameRate = 60;
-
             _blocks = new HashSet<Block>();
 
-            _cellsGrid.Generate(_gridSize);
+            _cellsGrid.Generate();
             _cellsGrid.BlocksDestroyed += OnBlocksDestroyed;
         }
 
