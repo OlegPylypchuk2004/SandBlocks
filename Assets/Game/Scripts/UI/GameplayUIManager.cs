@@ -6,6 +6,7 @@ namespace UI
     public class GameplayUIManager : MonoBehaviour
     {
         [SerializeField] private Button _pauseButton;
+        [SerializeField] private PausePopup _pausePopup;
 
         private void Start()
         {
@@ -19,7 +20,7 @@ namespace UI
 
         private void OnPauseButtonClicked()
         {
-
+            _pausePopup.Appear();
         }
     }
 }
