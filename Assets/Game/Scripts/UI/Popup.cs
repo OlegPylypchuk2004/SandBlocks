@@ -6,7 +6,8 @@ namespace UI
     public abstract class Popup : MonoBehaviour
     {
         [SerializeField] private BlurBackground _blurBackground;
-        [SerializeField] protected CanvasGroup _canvasGroup;
+        [SerializeField] private Panel _panel;
+        [SerializeField] private CanvasGroup _canvasGroup;
 
 
         protected Sequence _currentSequence;
@@ -28,6 +29,8 @@ namespace UI
             _currentSequence.Append(_canvasGroup.DOFade(1f, 0.25f)
                 .From(0f)
                 .SetEase(Ease.OutQuad));
+
+            _currentSequence.Append(_panel.Appear());
 
             _currentSequence.OnComplete(() =>
             {
