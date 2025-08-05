@@ -82,7 +82,7 @@ namespace Gameplay
 
             _simulationCoroutine = null;
 
-            DestroyBlocks();
+            StartCoroutine(DestroyBlocks());
         }
 
         private bool TryMoveBlock(Block block, Cell cell)
@@ -152,12 +152,14 @@ namespace Gameplay
             return null;
         }
 
-        private void DestroyBlocks()
+        private IEnumerator DestroyBlocks()
         {
+            yield return new WaitForSeconds(0.075f);
+
             int rows = _cells.GetLength(0);
             int columns = _cells.GetLength(1);
             bool[,] visited = new bool[rows, columns];
-            List<Block> destroyedBlocks = new List<Block>();
+            List<Block> blocksToDestroy = new List<Block>();
 
             for (int y = 0; y < rows; y++)
             {
@@ -185,20 +187,43 @@ namespace Gameplay
 
                             if (block != null)
                             {
-                                Destroy(block.gameObject);
                                 _cells[pos.y, pos.x].Block = null;
+                                block.IsShine = true;
 
-                                destroyedBlocks.Add(block);
+                                blocksToDestroy.Add(block);
                             }
                         }
                     }
                 }
             }
 
-            if (destroyedBlocks.Count > 0)
+            if (blocksToDestroy.Count == 0)
             {
-                BlocksDestroyed?.Invoke(destroyedBlocks.ToArray());
+                yield break;
             }
+
+            yield return new WaitForSeconds(0.075f);
+
+            foreach (Block blockToDestroy in blocksToDestroy)
+            {
+                blockToDestroy.IsShine = false;
+            }
+
+            yield return new WaitForSeconds(0.075f);
+
+            foreach (Block blockToDestroy in blocksToDestroy)
+            {
+                blockToDestroy.IsShine = true;
+            }
+
+            yield return new WaitForSeconds(0.075f);
+
+            foreach (Block blockToDestroy in blocksToDestroy)
+            {
+                Destroy(blockToDestroy.gameObject);
+            }
+
+            BlocksDestroyed?.Invoke(blocksToDestroy.ToArray());
         }
         private void FloodFill(int y, int x, Color targetColor, bool[,] visited, List<Vector2Int> group, HashSet<int> touchedColumns)
         {

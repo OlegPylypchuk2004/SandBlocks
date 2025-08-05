@@ -9,6 +9,7 @@ namespace Gameplay
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
         private Color _color;
+        private bool _isShine;
 
         public event Action<Vector2> PositionChanged;
         public event Action<Color> ColorChanged;
@@ -37,9 +38,33 @@ namespace Gameplay
             {
                 _color = value;
 
-                _spriteRenderer.color = _color;
+                if (!IsShine)
+                {
+                    _spriteRenderer.color = _color;
+                }
 
                 ColorChanged?.Invoke(Color);
+            }
+        }
+
+        public bool IsShine
+        {
+            get
+            {
+                return _isShine;
+            }
+            set
+            {
+                _isShine = value;
+
+                if (_isShine)
+                {
+                    _spriteRenderer.color = Color.white;
+                }
+                else
+                {
+                    _spriteRenderer.color = Color;
+                }
             }
         }
 
