@@ -27,8 +27,6 @@ namespace Gameplay
 
             _cellsGrid.Generate(_gridSize);
             _cellsGrid.BlocksDestroyed += OnBlocksDestroyed;
-
-            _camera.orthographicSize = Mathf.Min(_gridSize.x, _gridSize.y);
         }
 
         private void OnDestroy()
