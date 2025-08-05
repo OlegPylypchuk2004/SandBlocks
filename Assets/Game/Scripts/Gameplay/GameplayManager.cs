@@ -1,7 +1,9 @@
+using ScoreSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using VContainer;
 
 namespace Gameplay
 {
@@ -15,9 +17,17 @@ namespace Gameplay
         private HashSet<Block> _blocks;
         private PickupableFigure _pickedFigure;
 
+        private ScoreCounter _scoreCounter;
+
         public event Action<PickupableFigure> FigureWasPicked;
         public event Action<PickupableFigure> FigureWasPlaced;
         public event Action<PickupableFigure> FigureWasDropped;
+
+        [Inject]
+        private void Construct(ScoreCounter scoreCounter)
+        {
+            _scoreCounter = scoreCounter;
+        }
 
         private void Start()
         {
@@ -32,6 +42,8 @@ namespace Gameplay
         private void OnDestroy()
         {
             _cellsGrid.BlocksDestroyed -= OnBlocksDestroyed;
+
+            _scoreCounter.Dispose();
         }
 
         private void Update()
