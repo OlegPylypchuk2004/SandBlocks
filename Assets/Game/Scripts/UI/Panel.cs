@@ -39,8 +39,6 @@ namespace UI
                 .From(0f)
                 .SetEase(Ease.Linear));
 
-            _currentSequence.AppendInterval(0.0625f);
-
             _currentSequence.Append(_rectTransform.DOSizeDelta(new Vector2(_minSize.x, _normalSize.y), 0.25f)
                 .SetEase(Ease.OutQuad));
 
@@ -56,6 +54,36 @@ namespace UI
             {
                 _canvasGroup.interactable = true;
             });
+
+            return _currentSequence;
+        }
+
+        public Sequence Disappear()
+        {
+            _currentSequence?.Kill();
+            _currentSequence = DOTween.Sequence();
+            _currentSequence.SetLink(gameObject);
+
+            _currentSequence.AppendCallback(() =>
+            {
+                gameObject.SetActive(true);
+
+                _canvasGroup.interactable = false;
+            });
+
+            _currentSequence.Append(_canvasGroup.DOFade(0f, 0.25f)
+                .SetEase(Ease.InQuad));
+
+            _currentSequence.Append(_rectTransform.DOSizeDelta(new Vector2(_normalSize.x, _minSize.y), 0.25f)
+                .SetEase(Ease.InQuad));
+
+            _currentSequence.AppendInterval(0.0625f);
+
+            _currentSequence.Append(_rectTransform.DOSizeDelta(_minSize, 0.25f)
+                .SetEase(Ease.InQuad));
+
+            _currentSequence.Append(_image.DOFade(0f, 0.25f)
+                .SetEase(Ease.Linear));
 
             return _currentSequence;
         }

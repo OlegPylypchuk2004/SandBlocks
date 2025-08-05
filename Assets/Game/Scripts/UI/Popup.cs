@@ -59,7 +59,7 @@ namespace UI
                 UnsubscribeFromEvents();
             });
 
-            //_currentSequence.Append(_panel.Disappear());
+            _currentSequence.Append(_panel.Disappear());
 
             _currentSequence.Append(_canvasGroup.DOFade(0f, 0.25f)
                 .SetEase(Ease.InQuad));
