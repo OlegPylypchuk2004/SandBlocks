@@ -37,7 +37,7 @@ namespace ScoreSystem
 
         private void OnBlocksDestroyed(Block[] blocks)
         {
-            Score += blocks.Length * 5;
+            Score += blocks.Length;
         }
     }
 }
