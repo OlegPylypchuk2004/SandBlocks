@@ -49,6 +49,18 @@ namespace Gameplay
             }
         }
 
+        public int SpriteOrderInLayer
+        {
+            get
+            {
+                return _spriteRenderer.sortingOrder;
+            }
+            set
+            {
+                _spriteRenderer.sortingOrder = value;
+            }
+        }
+
         public bool IsShine
         {
             get

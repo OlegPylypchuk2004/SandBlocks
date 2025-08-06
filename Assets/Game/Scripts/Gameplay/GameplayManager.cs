@@ -75,6 +75,7 @@ namespace Gameplay
             if (raycastHit.collider != null && raycastHit.collider.TryGetComponent(out PickupableFigure pickupableFigure))
             {
                 _pickedFigure = pickupableFigure;
+                _pickedFigure.Pickup();
                 _pickedFigure.transform.SetParent(null);
 
                 FigureWasPicked?.Invoke(_pickedFigure);
@@ -99,6 +100,7 @@ namespace Gameplay
             {
                 FigureWasDropped?.Invoke(_pickedFigure);
 
+                _pickedFigure.Drop();
                 _pickedFigure = null;
 
                 return;

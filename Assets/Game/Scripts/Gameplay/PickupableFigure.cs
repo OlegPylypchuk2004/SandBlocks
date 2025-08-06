@@ -32,6 +32,22 @@ namespace Gameplay
             }
         }
 
+        public void Pickup()
+        {
+            foreach (Block block in _blocks)
+            {
+                block.SpriteOrderInLayer = 100;
+            }
+        }
+
+        public void Drop()
+        {
+            foreach (Block block in _blocks)
+            {
+                block.SpriteOrderInLayer = 0;
+            }
+        }
+
         public bool IsCanPutBlocks()
         {
             Cell[] cellsUnderBlocks = GetCellsUnderBlocks();
