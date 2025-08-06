@@ -5,6 +5,8 @@ namespace Gameplay
 {
     public class Block : MonoBehaviour
     {
+        [field: SerializeField, Min(0)] public int ColorIndex { get; private set; }
+
         [SerializeField] private LayerMask _cellLayerMask;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 

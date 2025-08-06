@@ -10,23 +10,24 @@ namespace Gameplay
         [field: SerializeField] public float MaxXPosition { get; private set; }
         [field: SerializeField] public float MaxYPosition { get; private set; }
 
-        private Color _color;
+        private Color[] _colors;
 
         public Block[] Blocks => _blocks;
 
-        public Color Color
+        public Color[] Colors
         {
             get
             {
-                return _color;
+                return _colors;
             }
             set
             {
-                _color = value;
+                _colors = value;
 
                 foreach (Block block in _blocks)
                 {
-                    block.Color = _color;
+                    int colorIndex = Mathf.Clamp(block.ColorIndex, 0, _colors.Length - 1);
+                    block.Color = _colors[colorIndex];
                 }
             }
         }

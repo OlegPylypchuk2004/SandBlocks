@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace Gameplay
@@ -38,10 +39,26 @@ namespace Gameplay
                 }
 
                 PickupableFigure figure = Instantiate(_figurePrefabs[Random.Range(0, _figurePrefabs.Length)], spawnPoint.transform);
-                figure.Color = _colorConfigs[Random.Range(0, _colorConfigs.Length)].Color;
-
+                figure.Colors = GenerateFigureColors();
                 spawnPoint.Figure = figure;
             }
+        }
+
+        private Color[] GenerateFigureColors()
+        {
+            int colorsAmount = Random.Range(1, 3);
+            Color[] colors = new Color[colorsAmount];
+
+            ColorConfig[] colorConfigs = _colorConfigs.OrderBy(colorConfig => Random.value)
+                .Take(colorsAmount)
+                .ToArray();
+
+            for (int i = 0; i < colors.Length; i++)
+            {
+                colors[i] = colorConfigs[i].Color;
+            }
+
+            return colors;
         }
 
         private void OnFigureWasPicked(PickupableFigure figure)
