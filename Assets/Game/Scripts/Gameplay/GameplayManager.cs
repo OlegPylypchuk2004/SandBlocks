@@ -96,11 +96,12 @@ namespace Gameplay
 
         private void PutBlocks()
         {
+            _pickedFigure.Drop();
+
             if (_cellsGrid.IsSimulationStarted)
             {
                 FigureWasDropped?.Invoke(_pickedFigure);
 
-                _pickedFigure.Drop();
                 _pickedFigure = null;
 
                 return;

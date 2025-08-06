@@ -6,6 +6,7 @@ namespace Gameplay
     public class PickupableFigure : MonoBehaviour
     {
         [SerializeField] private Block[] _blocks;
+        [SerializeField] private GameObject[] _outlines;
 
         [field: SerializeField] public float MaxXPosition { get; private set; }
         [field: SerializeField] public float MaxYPosition { get; private set; }
@@ -37,6 +38,11 @@ namespace Gameplay
             foreach (Block block in _blocks)
             {
                 block.SpriteOrderInLayer = 100;
+
+                foreach (GameObject outline in _outlines)
+                {
+                    outline.SetActive(false);
+                }
             }
         }
 
@@ -45,6 +51,11 @@ namespace Gameplay
             foreach (Block block in _blocks)
             {
                 block.SpriteOrderInLayer = 0;
+            }
+
+            foreach (GameObject outline in _outlines)
+            {
+                outline.SetActive(true);
             }
         }
 
