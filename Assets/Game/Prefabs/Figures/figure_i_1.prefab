@@ -841,9 +841,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3526304405319368051}
     m_Modifications:
+    - target: {fileID: 1083939266971302548, guid: 85d1a004fb978204bad18a624c875339, type: 3}
+      propertyPath: <ColorIndex>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3348037947297657551, guid: 85d1a004fb978204bad18a624c875339, type: 3}
       propertyPath: m_Name
       value: FigureSection (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6827346312032591979, guid: 85d1a004fb978204bad18a624c875339, type: 3}
+      propertyPath: <ColorIndex>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7922627896882360403, guid: 85d1a004fb978204bad18a624c875339, type: 3}
       propertyPath: m_LocalPosition.x
@@ -884,6 +892,10 @@ PrefabInstance:
     - target: {fileID: 7922627896882360403, guid: 85d1a004fb978204bad18a624c875339, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943014912219179333, guid: 85d1a004fb978204bad18a624c875339, type: 3}
+      propertyPath: <ColorIndex>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1377,7 +1389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6481029774676246275, guid: 85d1a004fb978204bad18a624c875339, type: 3}
       propertyPath: <ColorIndex>k__BackingField
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6733544326226383960, guid: 85d1a004fb978204bad18a624c875339, type: 3}
       propertyPath: <ColorIndex>k__BackingField
@@ -1465,7 +1477,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8667487158770264347, guid: 85d1a004fb978204bad18a624c875339, type: 3}
       propertyPath: <ColorIndex>k__BackingField
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8723956665932597239, guid: 85d1a004fb978204bad18a624c875339, type: 3}
       propertyPath: <ColorIndex>k__BackingField
@@ -1481,7 +1493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9159012060331230265, guid: 85d1a004fb978204bad18a624c875339, type: 3}
       propertyPath: <ColorIndex>k__BackingField
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9168117539189955627, guid: 85d1a004fb978204bad18a624c875339, type: 3}
       propertyPath: <ColorIndex>k__BackingField
