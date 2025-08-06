@@ -71,17 +71,17 @@ namespace Gameplay
             {
                 _isShine = value;
 
+                if (_spriteRenderer == null)
+                {
+                    return;
+                }
+
                 if (_isShine)
                 {
                     _spriteRenderer.color = Color.white;
                 }
                 else
                 {
-                    if (_spriteRenderer == null)
-                    {
-                        return;
-                    }
-
                     _spriteRenderer.color = Color;
                 }
             }

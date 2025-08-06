@@ -102,6 +102,7 @@ namespace Gameplay
             {
                 FigureWasDropped?.Invoke(_pickedFigure);
 
+                _pickedFigure.Shine();
                 _pickedFigure = null;
 
                 return;
